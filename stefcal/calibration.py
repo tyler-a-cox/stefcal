@@ -1,10 +1,9 @@
 import numpy as np
 
-
 import jax
 from jax import numpy as jnp
 jax.config.update("jax_enable_x64", True)
-from hera_cal import abscal, redcal, datacontainer
+from hera_cal import datacontainer
 
 
 @jax.jit
@@ -98,7 +97,7 @@ def build_model_matrices(data, model, flags, baselines, antenna_flags={}):
     """
     # Get unique antennas
     ants = sorted(list(set(sum([list(k[:2]) for k in data], []))))
-    pols = sorted(list(set([k[2] for k in data_bls])))
+    pols = sorted(list(set([k[2] for k in baselines])))
 
     # Remove flagged antennas
     ants = [ant for ant in ants if not antenna_flags.get((ant, 'J' + pols[0]), False)]
